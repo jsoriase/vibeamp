@@ -1,0 +1,42 @@
+{
+  "name": "vibeamp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --windows",
+    "build:mac": "electron-builder --mac"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Unlicense",
+  "type": "commonjs",
+  "build": {
+    "appId": "com.vibeamp.app",
+    "productName": "VibeAmp",
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "portable",
+      "icon": "assets/icon.png"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.png",
+      "category": "public.app-category.music"
+    },
+    "files": [
+      "**/*",
+      "!dist/*"
+    ]
+  },
+  "devDependencies": {
+    "electron": "^40.6.0",
+    "electron-builder": "^26.8.1"
+  },
+  "dependencies": {
+    "yt-dlp-exec": "^1.0.2"
+  }
+}

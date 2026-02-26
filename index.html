@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VibeAmp Streamer</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="app-container">
+
+        <!-- MAIN PLAYER WINDOW -->
+        <div class="vibeamp-window" id="playerSection">
+            <div class="window-titlebar drag-region">
+                <span class="titlebar-text">VIBEAMP STREAMER</span>
+                <div class="titlebar-controls"><span class="ctrl-min">_</span> <span class="ctrl-max">☐</span> <span
+                        class="ctrl-close">X</span></div>
+            </div>
+            <div class="window-content player-content">
+                <div class="player-top">
+                    <div class="lcd-left">
+                        <span id="timeCounter" class="time-text">00:00</span>
+                        <div class="visualizer-mock">
+                            <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+                        </div>
+                    </div>
+                    <div class="lcd-right">
+                        <div class="track-info-container">
+                            <span id="trackTitle" class="lcd-text">Ready to stream...</span>
+                        </div>
+                        <div class="player-metrics">
+                            <span class="kbps"><span id="kbpsValue">128</span> kbps</span>
+                            <span class="khz"><span id="khzValue">44</span> kHz</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="seek-container">
+                    <input type="range" class="vibeamp-slider seek-slider" id="seekBar" min="0" max="100" value="0"
+                        step="0.1">
+                </div>
+
+                <div class="player-controls">
+                    <div class="control-buttons">
+                        <button class="vibeamp-btn" id="prevBtn" title="Previous" disabled>&lt;&lt;</button>
+                        <button class="vibeamp-btn" id="playBtn" title="Play">&#9658;</button>
+                        <button class="vibeamp-btn" id="pauseBtn" title="Pause">||</button>
+                        <button class="vibeamp-btn" id="stopBtn" title="Stop">&#9632;</button>
+                        <button class="vibeamp-btn" id="nextBtn" title="Next" disabled>&gt;&gt;</button>
+                    </div>
+                    <div class="volume-slider">
+                        <span class="vol-label">VOL</span>
+                        <input type="range" class="vibeamp-slider" id="volumeControl" min="0" max="1" step="0.01"
+                            value="1">
+                    </div>
+                </div>
+
+                <audio id="audioPlayer"></audio>
+            </div>
+        </div>
+
+        <!-- EQUALIZER WINDOW -->
+        <div class="vibeamp-window eq-window">
+            <div class="window-titlebar drag-region">
+                <span class="titlebar-text">EQUALIZER</span>
+                <div class="titlebar-controls"><span class="ctrl-min">_</span> <span class="ctrl-max">☐</span> <span
+                        class="ctrl-close">X</span></div>
+            </div>
+            <div class="window-content eq-content">
+                <div class="eq-sliders">
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="preamp">
+                        <span>PRE</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="60">
+                        <span>60</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="170">
+                        <span>170</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="310">
+                        <span>310</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="600">
+                        <span>600</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="1000">
+                        <span>1K</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="3000">
+                        <span>3K</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="6000">
+                        <span>6K</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="12000">
+                        <span>12K</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="14000">
+                        <span>14K</span>
+                    </div>
+                    <div class="eq-band">
+                        <input type="range" class="vibeamp-slider vertical-slider" min="-12" max="12" value="0"
+                            orient="vertical" data-freq="16000">
+                        <span>16K</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PLAYLIST / HISTORY WINDOW -->
+        <div class="vibeamp-window playlist-window">
+            <div class="window-titlebar drag-region">
+                <span class="titlebar-text">PLAYLIST / QUEUE</span>
+                <div class="titlebar-controls"><span class="ctrl-min">_</span> <span class="ctrl-max">☐</span> <span
+                        class="ctrl-close">X</span></div>
+            </div>
+            <div class="window-content playlist-content">
+                <div class="history-list vibeamp-list" id="historyList">
+                    <!-- History items injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SEARCH / BROWSER WINDOW -->
+    <div class="vibeamp-window search-window">
+        <div class="window-titlebar drag-region">
+            <span class="titlebar-text">SEARCH & STREAM</span>
+            <div class="titlebar-controls"><span class="ctrl-min">_</span> <span class="ctrl-max">☐</span> <span
+                    class="ctrl-close">X</span></div>
+        </div>
+        <div class="window-content search-content">
+            <div class="search-container">
+                <input type="text" id="urlInput" class="vibeamp-input" placeholder="Search YouTube..."
+                    spellcheck="false">
+                <button id="streamBtn" class="vibeamp-btn stream-btn">STREAM</button>
+            </div>
+            <div id="statusMessage" class="status-message lcd-text"></div>
+            <!-- Putting search results here so they appear inside the window naturally -->
+            <div id="searchResults" class="search-results vibeamp-list"></div>
+        </div>
+    </div>
+
+    <!-- ALBUM ART WINDOW -->
+    <div class="vibeamp-window art-window">
+        <div class="window-titlebar drag-region">
+            <span class="titlebar-text">ALBUM ART</span>
+            <div class="titlebar-controls"><span class="ctrl-min">_</span> <span class="ctrl-max">☐</span> <span
+                    class="ctrl-close">X</span></div>
+        </div>
+        <div class="window-content art-content">
+            <div class="album-art-container">
+                <img id="albumArt" src="" alt="Album Art" style="display: none;">
+                <div id="noArtText" class="lcd-text"
+                    style="text-align: center; width: 100%; color: #008800; font-size: 16px;">NO ARTWORK</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOG WINDOW -->
+    <div class="vibeamp-window log-window" id="logSection">
+        <div class="window-titlebar drag-region">
+            <span class="titlebar-text">DEBUG LOG</span>
+            <div class="titlebar-controls"><span class="ctrl-min">_</span> <span class="ctrl-max">☐</span> <span
+                    class="ctrl-close">X</span></div>
+        </div>
+        <div class="window-content log-content">
+            <div id="logArea" class="log-area vibeamp-list">
+                <!-- Logs injected here -->
+            </div>
+        </div>
+    </div>
+    </div>
+
+    </div>
+    <script type="module" src="renderer.js"></script>
+</body>
+
+</html>
