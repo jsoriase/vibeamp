@@ -12,7 +12,7 @@ VibeAmp is a retro-styled YouTube music streamer and MP3 player built with Elect
 - **Modular Windows**: Drag and position individual windows (Player, Playlist, Search, EQ, Album Art) anywhere on your screen.
 - **Integrated Equalizer**: Fineset your audio with a built-in EQ.
 - **Album Art**: High-quality album art display for the currently playing track.
-- **Portable & Standalone**: Runs without installation; dependencies are stored in user data folders to keep the app directory clean.
+- **Portable & Standalone**: `yt-dlp` is stored in the application user-data folder and FFmpeg is bundled with the app.
 
 ## 🚀 Getting Started
 
@@ -26,14 +26,16 @@ VibeAmp is a retro-styled YouTube music streamer and MP3 player built with Elect
 To provide a seamless experience, VibeAmp automatically manages its core multimedia dependencies on the first run. You do not need to install these manually.
 
 - **yt-dlp**: Used for searching YouTube and fetching high-quality audio streams.
-- **ffmpeg**: Used for audio processing, format conversion, and embedding metadata/album art.
+- **FFmpeg**: A platform-specific executable is bundled through `ffmpeg-static`.
 
 #### Storage Location
 
 These binaries are downloaded and stored in a persistent directory outside of the application folder to ensure stability:
 
-- **Windows**: `%LOCALAPPDATA%\vibeamp-streamer`
-- **macOS/Linux**: `~/vibeamp-streamer` (or the equivalent user data path)
+- **Windows**: `%LOCALAPPDATA%\vibeamp-streamer` (preserved for compatibility with existing installations).
+- **macOS**: VibeAmp's directory under `~/Library/Application Support`.
+
+VibeAmp currently supports Windows and macOS. Linux is not configured as a build target.
 
 ### Installation
 
@@ -74,8 +76,15 @@ npm run build:win
 npm run build:mac
 ```
 
+Architecture-specific builds are also available:
+
+```bash
+npm run build:mac:x64
+npm run build:mac:arm64
+```
+
 > [!NOTE]
-> Building for macOS requires a Mac and may require Xcode Command Line Tools installed (`xcode-select --install`).
+> Build each platform on that platform so `ffmpeg-static` installs the matching executable. Building for macOS requires a Mac and may require Xcode Command Line Tools (`xcode-select --install`). Public macOS distribution also requires Apple code signing and notarization.
 
 ## 📜 License
 
